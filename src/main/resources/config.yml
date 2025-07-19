@@ -1,0 +1,15 @@
+
+# - - - - - - - - - - #
+# UnluckyCraft        #
+#                     #
+# by SuperCHIROK1     #
+# - - - - - - - - - - #
+
+chances:
+  diamond: 0.25
+  emerald: 0.2
+  gold: 0.15
+  iron: 0.2
+  coal: 0.3
+  quartz: 0.3
+  netherite: 0.05

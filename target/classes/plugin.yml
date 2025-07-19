@@ -1,0 +1,24 @@
+name: UnluckyCraft
+version: '1.0'
+main: me.superchirok1.unluckycraft.UnluckyCraft
+api-version: '1.16'
+prefix: ULC
+load: STARTUP
+authors: [SuperCHIROK1]
+description: UnluckyCraft
+
+commands:
+  ulc:
+    aliases:
+      - unluckyc
+      - unluckycraft
+  uls:
+    aliases:
+      - unluckyset
+      - unluckycraftsettings
+
+permissions:
+  ulc.reload:
+    description: Plugin reload
+  ulc.settings:
+    description: Set chances
