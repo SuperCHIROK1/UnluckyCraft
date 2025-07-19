@@ -1,10 +1,10 @@
 # 🎲 UnluckyCraft
-**Unlucky Minecraft is coming!**  
-A Minecraft plugin that adds random chance-based rewards!
+**Неудачный Minecraft**  
+Добавляет неудачу при добывании руды
 
 ---
 
-## ⚙️ Config
+## ⚙️ Конфиг
 
 ```yaml
 # - - - - - - - - - - #
@@ -23,18 +23,18 @@ chances:
   netherite: 0.05
 ```
 
-## 📦 Commands
+## 📦 Команды
 
-/ulc <about|reload> – About info or reload the plugin
+/ulc <about|reload> – информация о плагине или перезагрузка конфига
 
-/uls – Open the chance-setting GUI
+/uls – открыть меню настройки шансов (GUI)
 
-## 👁️ Preview
+## 👁️ Превью
 
-Menu
+Меню
 
 ![Menu](https://github.com/SuperCHIROK1/UnluckyCraft/blob/master/menu.png?raw=true)
 
-Messages
+Сообщения
 
 ![Menu](https://github.com/SuperCHIROK1/UnluckyCraft/blob/master/chat.png?raw=true)
