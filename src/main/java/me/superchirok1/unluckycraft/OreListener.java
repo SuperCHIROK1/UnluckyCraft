@@ -4,6 +4,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,37 +21,36 @@ public class OreListener implements Listener {
     private final JavaPlugin plugin;
     private final Random random = new Random();
 
-    private final String unlucky = "&#940202&lʜ&#A60202&lᴇ&#B80101&lу&#CA0101&lд&#DB0101&lᴀ&#ED0000&lч&#FF0000&lᴀ";
-    private final String lucky = "&#56FF00&lу&#41FF26&lд&#2BFF4C&lᴀ&#16FF72&lч&#00FF98&lᴀ";
-
     private final Map<Material, OreDrop> oreDrops = new EnumMap<>(Material.class);
 
     public OreListener(JavaPlugin plugin) {
         this.plugin = plugin;
-        registerOre("DIAMOND_ORE", "diamond", Material.DIAMOND, "алмаз");
-        registerOre("DEEPSLATE_DIAMOND_ORE", "diamond", Material.DIAMOND, "алмаз");
 
-        registerOre("EMERALD_ORE", "emerald", Material.EMERALD, "изумруд");
-        registerOre("DEEPSLATE_EMERALD_ORE", "emerald", Material.EMERALD, "изумруд");
+        registerOre("DIAMOND_ORE", "diamond", Material.DIAMOND);
+        registerOre("DEEPSLATE_DIAMOND_ORE", "diamond", Material.DIAMOND);
 
-        registerOre("GOLD_ORE", "gold", Material.GOLD_INGOT, "золотой слиток");
-        registerOre("DEEPSLATE_GOLD_ORE", "gold", Material.GOLD_INGOT, "золотой слиток");
-        registerOre("NETHER_GOLD_ORE", "gold", Material.GOLD_NUGGET, "золотой самородок");
+        registerOre("EMERALD_ORE", "emerald", Material.EMERALD);
+        registerOre("DEEPSLATE_EMERALD_ORE", "emerald", Material.EMERALD);
 
-        registerOre("IRON_ORE", "iron", Material.IRON_INGOT, "железный слиток");
-        registerOre("DEEPSLATE_IRON_ORE", "iron", Material.IRON_INGOT, "железный слиток");
+        registerOre("GOLD_ORE", "gold", Material.GOLD_INGOT);
+        registerOre("DEEPSLATE_GOLD_ORE", "gold", Material.GOLD_INGOT);
+        registerOre("NETHER_GOLD_ORE", "gold", Material.GOLD_NUGGET);
 
-        registerOre("COAL_ORE", "coal", Material.COAL, "уголь");
-        registerOre("DEEPSLATE_COAL_ORE", "coal", Material.COAL, "уголь");
+        registerOre("IRON_ORE", "iron", Material.IRON_INGOT);
+        registerOre("DEEPSLATE_IRON_ORE", "iron", Material.IRON_INGOT);
 
-        registerOre("NETHER_QUARTZ_ORE", "quartz", Material.QUARTZ, "кварц");
-        registerOre("ANCIENT_DEBRIS", "netherite", Material.NETHERITE_SCRAP, "незеритовый лом");
+        registerOre("COAL_ORE", "coal", Material.COAL);
+        registerOre("DEEPSLATE_COAL_ORE", "coal", Material.COAL);
+
+        registerOre("NETHER_QUARTZ_ORE", "quartz", Material.QUARTZ);
+        registerOre("ANCIENT_DEBRIS", "netherite", Material.NETHERITE_SCRAP);
     }
 
-    private void registerOre(String materialName, String configKey, Material result, String displayName) {
+    private void registerOre(String blockMaterialName, String configKey, Material dropItem) {
         try {
-            Material material = Material.valueOf(materialName);
-            oreDrops.put(material, new OreDrop(configKey, result, displayName));
+            Material blockMaterial = Material.valueOf(blockMaterialName);
+            String displayName = plugin.getConfig().getString("drop-names." + configKey, "Предмет");
+            oreDrops.put(blockMaterial, new OreDrop(configKey, new ItemStack(dropItem), displayName));
         } catch (IllegalArgumentException ignored) {}
     }
 
@@ -65,20 +65,28 @@ public class OreListener implements Listener {
         event.setDropItems(false);
 
         Player player = event.getPlayer();
-        double chance = plugin.getConfig().getDouble("chances." + drop.configKey, 0.1);
+        if (player.getGameMode() != GameMode.SURVIVAL) return;
 
-        if (player.getGameMode() == GameMode.SURVIVAL) {
-            if (random.nextDouble() < chance) {
-                block.getWorld().dropItemNaturally(block.getLocation(), drop.item);
-                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.5F);
-                player.sendMessage(ColorUtils.translateHex(lucky + " &7• &fВам повезло! &#56FF00Выпал &l" + drop.displayName));
-            } else {
-                player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL, 1.0F, 0.9F);
-                player.sendMessage(ColorUtils.translateHex(unlucky + " &7• &fВам не повезло"));
-            }
+        FileConfiguration config = plugin.getConfig();
+
+        double chance = config.getDouble("chances." + drop.configKey, 0.1);
+        boolean isLucky = random.nextDouble() < chance;
+
+        String messageKey = isLucky ? "messages.lucky" : "messages.unlucky";
+        String message = config.getString(messageKey, isLucky ? "Вы получили {item}" : "Вам не повезло");
+        message = message.replace("{item}", drop.displayName);
+
+        String soundKey = isLucky ? "sounds.lucky" : "sounds.unlucky";
+        String soundName = config.getString(soundKey, "BLOCK_NOTE_BLOCK_PLING");
+
+        Sound sound = Sound.valueOf(soundName);
+
+        player.playSound(player.getLocation(), sound, 1.0F, isLucky ? 1.5F : 0.9F);
+        player.sendMessage(ColorUtils.translateHex(message));
+
+        if (isLucky) {
+            block.getWorld().dropItemNaturally(block.getLocation(), drop.item);
         }
-
-
     }
 
     private static class OreDrop {
@@ -86,9 +94,9 @@ public class OreListener implements Listener {
         final ItemStack item;
         final String displayName;
 
-        public OreDrop(String configKey, Material resultMaterial, String displayName) {
+        public OreDrop(String configKey, ItemStack item, String displayName) {
             this.configKey = configKey;
-            this.item = new ItemStack(resultMaterial, 1);
+            this.item = item;
             this.displayName = displayName;
         }
     }

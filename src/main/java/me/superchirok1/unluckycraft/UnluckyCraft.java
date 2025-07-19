@@ -16,10 +16,14 @@ public final class UnluckyCraft extends JavaPlugin {
 
         getCommand("uls").setExecutor((sender, command, label, args) -> {
             if (sender instanceof Player) {
-                configGui.open((Player) sender);
-                return true;
+                if (sender.hasPermission("ulc.settings")) {
+                    configGui.open((Player) sender);
+                    return true;
+                } else {
+                    sender.sendMessage("§cNot has permission");
+                }
             }
-            sender.sendMessage("§cТолько игрок может открыть GUI.");
+            sender.sendMessage("§cOnly players can use GUI");
             return true;
         });
     }

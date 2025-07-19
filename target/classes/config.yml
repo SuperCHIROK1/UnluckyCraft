@@ -1,8 +1,7 @@
-
 # - - - - - - - - - - #
-# UnluckyCraft        #
+#     UnluckyCraft    #
 #                     #
-# by SuperCHIROK1     #
+#   by SuperCHIROK1   #
 # - - - - - - - - - - #
 
 chances:
@@ -13,3 +12,26 @@ chances:
   coal: 0.3
   quartz: 0.3
   netherite: 0.05
+
+drop-names:
+  diamond: "ᴅɪᴀᴍᴏɴᴅ"
+  emerald: "ᴇᴍᴇʀᴀʟᴅ"
+  gold: "ɢᴏʟᴅ"
+  iron: "ɪʀᴏɴ"
+  coal: "ᴄᴏᴀʟ"
+  quartz: "ϙᴜᴀʀᴛᴢ"
+  netherite: "ɴᴇᴛʜᴇʀɪᴛᴇ"
+
+messages:
+  lucky: "&#02943Bʟ&#01B86Bᴜ&#01DB9Bᴄ&#00FFCBᴋ &7• &fʏᴏᴜ ᴄʟᴀɪᴍ &#00FFCB{item}"
+  unlucky: "&#940202ᴜ&#A90202ɴ&#BF0101ʟ&#D40101ᴜ&#EA0000ᴄ&#FF0000ᴋ &7• &fɴᴏᴛʜɪɴɢ ᴅʀᴏᴘᴘᴇᴅ"
+
+sounds:
+  lucky: "ENTITY_EXPERIENCE_ORB_PICKUP"
+  unlucky: "BLOCK_DISPENSER_FAIL"
+
+gui:
+  title: "&8ᴄʜᴀɴᴄᴇs"
+  lore:
+    lmb: "&7ʟᴇғᴛ ᴄʟɪᴄᴋ&8: &f+0.05"
+    rmb: "&7ʀɪɢʜᴛ ᴄʟɪᴄᴋ&8: &f-0.05"

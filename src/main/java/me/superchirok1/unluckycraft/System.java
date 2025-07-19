@@ -30,19 +30,19 @@ public class System implements CommandExecutor {
         if (args[0].equalsIgnoreCase("about")) {
             sender.sendMessage(ColorUtils.translateHex(" "));
             sender.sendMessage(ColorUtils.translateHex(" " + prfx + " &7(&#FFD900" + plugin.getDescription().getVersion() + "&7)"));
-            sender.sendMessage(ColorUtils.translateHex(" &7Неудача"));
+            sender.sendMessage(ColorUtils.translateHex(" &7Unlucky plugin"));
             sender.sendMessage(ColorUtils.translateHex(" "));
-            sender.sendMessage(ColorUtils.translateHex(" &fБыл сделан: &#FFD900SuperCHIROK1"));
+            sender.sendMessage(ColorUtils.translateHex(" &fBy: &#FFD900SuperCHIROK1"));
             sender.sendMessage(ColorUtils.translateHex(" "));
             return true;
         }
 
         if (args[0].equalsIgnoreCase("reload")) {
             if (!sender.hasPermission("ulc.reload")) {
-                sender.sendMessage(ColorUtils.translateHex("&7[" + prfx + "&7] &cУ вас нет прав"));
+                sender.sendMessage(ColorUtils.translateHex("&7[" + prfx + "&7] &cNot have perms!"));
             } else {
                 plugin.reloadConfig();
-                sender.sendMessage(ColorUtils.translateHex("&7[" + prfx + "&7] &fПерезагрузка успешна!"));
+                sender.sendMessage(ColorUtils.translateHex("&7[" + prfx + "&7] &fReloaded!"));
             }
             return true;
         }
@@ -55,9 +55,9 @@ public class System implements CommandExecutor {
         sender.sendMessage(ColorUtils.translateHex(" "));
         sender.sendMessage(ColorUtils.translateHex(" " + prfx + " &7(&#FFD900" + plugin.getDescription().getVersion() + "&7)"));
         sender.sendMessage(ColorUtils.translateHex(" &8&m    &f"));
-        sender.sendMessage(ColorUtils.translateHex(" &#FFD900/ulc about &7- &fО плагине"));
-        sender.sendMessage(ColorUtils.translateHex(" &#FFD900/ulc reload &7- &fПерезагрузить плагин"));
-        sender.sendMessage(ColorUtils.translateHex(" &#FFD900/uls &7- &fНастроить шансы"));
+        sender.sendMessage(ColorUtils.translateHex(" &#FFD900/ulc about &7- &fAbout plugin"));
+        sender.sendMessage(ColorUtils.translateHex(" &#FFD900/ulc reload &7- &fReloads plugin"));
+        sender.sendMessage(ColorUtils.translateHex(" &#FFD900/uls &7- &fSetting the drop chances"));
         sender.sendMessage(ColorUtils.translateHex(" "));
     }
 }
