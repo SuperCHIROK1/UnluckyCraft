@@ -26,30 +26,30 @@ public class OreListener implements Listener {
     public OreListener(JavaPlugin plugin) {
         this.plugin = plugin;
 
-        registerOre("DIAMOND_ORE", "diamond", Material.DIAMOND);
-        registerOre("DEEPSLATE_DIAMOND_ORE", "diamond", Material.DIAMOND);
+        registerOre("DIAMOND_ORE", "diamond", Material.valueOf(plugin.getConfig().getString("drops.diamond.material")));
+        registerOre("DEEPSLATE_DIAMOND_ORE", "diamond", Material.valueOf(plugin.getConfig().getString("drops.diamond.material")));
 
-        registerOre("EMERALD_ORE", "emerald", Material.EMERALD);
-        registerOre("DEEPSLATE_EMERALD_ORE", "emerald", Material.EMERALD);
+        registerOre("EMERALD_ORE", "emerald", Material.valueOf(plugin.getConfig().getString("drops.emerald.material")));
+        registerOre("DEEPSLATE_EMERALD_ORE", "emerald", Material.valueOf(plugin.getConfig().getString("drops.emerald.material")));
 
-        registerOre("GOLD_ORE", "gold", Material.GOLD_INGOT);
-        registerOre("DEEPSLATE_GOLD_ORE", "gold", Material.GOLD_INGOT);
-        registerOre("NETHER_GOLD_ORE", "gold", Material.GOLD_NUGGET);
+        registerOre("GOLD_ORE", "gold", Material.valueOf(plugin.getConfig().getString("drops.gold.material")));
+        registerOre("DEEPSLATE_GOLD_ORE", "gold", Material.valueOf(plugin.getConfig().getString("drops.gold.material")));
+        registerOre("NETHER_GOLD_ORE", "gold", Material.valueOf(plugin.getConfig().getString("drops.gold.material")));
 
-        registerOre("IRON_ORE", "iron", Material.IRON_INGOT);
-        registerOre("DEEPSLATE_IRON_ORE", "iron", Material.IRON_INGOT);
+        registerOre("IRON_ORE", "iron", Material.valueOf(plugin.getConfig().getString("drops.iron.material")));
+        registerOre("DEEPSLATE_IRON_ORE", "iron", Material.valueOf(plugin.getConfig().getString("drops.iron.material")));
 
-        registerOre("COAL_ORE", "coal", Material.COAL);
-        registerOre("DEEPSLATE_COAL_ORE", "coal", Material.COAL);
+        registerOre("COAL_ORE", "coal", Material.valueOf(plugin.getConfig().getString("drops.coal.material")));
+        registerOre("DEEPSLATE_COAL_ORE", "coal", Material.valueOf(plugin.getConfig().getString("drops.coal.material")));
 
-        registerOre("NETHER_QUARTZ_ORE", "quartz", Material.QUARTZ);
-        registerOre("ANCIENT_DEBRIS", "netherite", Material.NETHERITE_SCRAP);
+        registerOre("NETHER_QUARTZ_ORE", "quartz", Material.valueOf(plugin.getConfig().getString("drops.quartz.material")));
+        registerOre("ANCIENT_DEBRIS", "netherite", Material.valueOf(plugin.getConfig().getString("drops.netherite.material")));
     }
 
     private void registerOre(String blockMaterialName, String configKey, Material dropItem) {
         try {
             Material blockMaterial = Material.valueOf(blockMaterialName);
-            String displayName = plugin.getConfig().getString("drop-names." + configKey, "Предмет");
+            String displayName = plugin.getConfig().getString("drops." + configKey+ ".name", "Предмет");
             oreDrops.put(blockMaterial, new OreDrop(configKey, new ItemStack(dropItem), displayName));
         } catch (IllegalArgumentException ignored) {}
     }

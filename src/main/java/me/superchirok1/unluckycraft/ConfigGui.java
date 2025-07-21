@@ -20,33 +20,37 @@ public class ConfigGui implements Listener {
 
     private final List<String> ores = Arrays.asList("diamond", "emerald", "gold", "iron", "coal", "quartz", "netherite");
 
-    private final Map<String, Material> icons = Map.of(
-            "diamond", Material.DIAMOND,
-            "emerald", Material.EMERALD,
-            "gold", Material.GOLD_INGOT,
-            "iron", Material.IRON_INGOT,
-            "coal", Material.COAL,
-            "quartz", Material.QUARTZ,
-            "netherite", Material.NETHERITE_SCRAP
-    );
-
     public ConfigGui(JavaPlugin plugin) {
         this.plugin = plugin;
+        icons = Map.of(
+                "diamond", Material.valueOf(plugin.getConfig().getString("drops.diamond.material")),
+                "emerald", Material.valueOf(plugin.getConfig().getString("drops.emerald.material")),
+                "gold", Material.valueOf(plugin.getConfig().getString("drops.gold.material")),
+                "iron", Material.valueOf(plugin.getConfig().getString("drops.iron.material")),
+                "coal", Material.valueOf(plugin.getConfig().getString("drops.coal.material")),
+                "quartz", Material.valueOf(plugin.getConfig().getString("drops.quartz.material")),
+                "netherite", Material.valueOf(plugin.getConfig().getString("drops.netherite.material"))
+        );
     }
+
+    private final Map<String, Material> icons;
 
     public void open(Player player) {
         String rawTitle = plugin.getConfig().getString("gui.title", "&7Настройка шансов дропа");
         Inventory gui = Bukkit.createInventory(null, 9 * 3, ColorUtils.translateHex(rawTitle));
 
+        int startSlot = 10;
+
         for (int i = 0; i < ores.size(); i++) {
             String key = ores.get(i);
             double chance = plugin.getConfig().getDouble("chances." + key, 0.1);
-            String displayName = plugin.getConfig().getString("drop-names." + key, key.toUpperCase());
+            String displayName = plugin.getConfig().getString("drops." + key + ".name", key.toUpperCase());
 
             String lmb = plugin.getConfig().getString("gui.lore.lmb", "&#00FF00ЛКМ: +0.05");
             String rmb = plugin.getConfig().getString("gui.lore.rmb", "&#FF0000ПКМ: -0.05");
 
-            ItemStack item = new ItemStack(icons.getOrDefault(key, Material.STONE));
+            Material material = icons.getOrDefault(key, Material.STONE);
+            ItemStack item = new ItemStack(material);
             ItemMeta meta = item.getItemMeta();
 
             meta.setDisplayName(ColorUtils.translateHex("&f" + displayName));
@@ -65,7 +69,7 @@ public class ConfigGui implements Listener {
             meta.setLore(translatedLore);
             item.setItemMeta(meta);
 
-            gui.setItem(i, item);
+            gui.setItem(startSlot + i, item);
         }
 
         player.openInventory(gui);
@@ -85,7 +89,7 @@ public class ConfigGui implements Listener {
         String key = null;
 
         for (String ore : ores) {
-            String display = plugin.getConfig().getString("drop-names." + ore, ore.toUpperCase()).toLowerCase();
+            String display = plugin.getConfig().getString("drops." + ore + ".name", ore.toUpperCase());
             if (display.equals(name)) {
                 key = ore;
                 break;
@@ -110,7 +114,7 @@ public class ConfigGui implements Listener {
         plugin.getConfig().set("chances." + key, current);
         plugin.saveConfig();
 
-        player.sendMessage(ColorUtils.translateHex("&fChance for &e" + key + " &fset to &e" + String.format("%.2f", current)));
+        player.sendMessage(ColorUtils.translateHex("&fᴄʜᴀɴᴄᴇ ꜰᴏʀ &e" + key + " &fsᴇᴛ ᴛᴏ &e" + String.format("%.2f", current)+ "&e%"));
         open(player);
     }
 }
