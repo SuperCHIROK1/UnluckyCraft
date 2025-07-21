@@ -15,14 +15,29 @@ chances:
   quartz: 0.3
   netherite: 0.05
 
-drop-names:
-  diamond: "ᴅɪᴀᴍᴏɴᴅ"
-  emerald: "ᴇᴍᴇʀᴀʟᴅ"
-  gold: "ɢᴏʟᴅ"
-  iron: "ɪʀᴏɴ"
-  coal: "ᴄᴏᴀʟ"
-  quartz: "ϙᴜᴀʀᴛᴢ"
-  netherite: "ɴᴇᴛʜᴇʀɪᴛᴇ"
+drops:
+  diamond:
+    name: "ᴅɪᴀᴍᴏɴᴅ"
+    # The drop material you specified will only take effect after a server restart.
+    material: DIAMOND
+  emerald:
+    name: "ᴇᴍᴇʀᴀʟᴅ"
+    material: EMERALD
+  gold:
+    name: "ɢᴏʟᴅ"
+    material: GOLD_ORE
+  iron:
+    name: "ɪʀᴏɴ"
+    material: IRON_ORE
+  coal:
+    name: "ᴄᴏᴀʟ"
+    material: COAL
+  quartz:
+    name: "ǫᴜᴀʀᴛᴢ"
+    material: QUARTZ
+  netherite:
+    name: "ɴᴇᴛʜᴇʀɪᴛᴇ"
+    material: NETHERITE_SCRAP
 
 messages:
   lucky: "&#279402ʟ&#29B801ᴜ&#2BDB01ᴄ&#2DFF00ᴋ &7• &fʏᴏᴜ ᴄʟᴀɪᴍ &#2DFF00{item}"
@@ -33,7 +48,7 @@ sounds:
   unlucky: "BLOCK_DISPENSER_FAIL"
 
 gui:
-  title: "&8ᴄʜᴀɴᴄᴇs"
+  title: "               &8ᴄʜᴀɴᴄᴇs"
   lore:
     lmb: "&7ʟᴇғᴛ ᴄʟɪᴄᴋ&8: &f+0.05"
     rmb: "&7ʀɪɢʜᴛ ᴄʟɪᴄᴋ&8: &f-0.05"
