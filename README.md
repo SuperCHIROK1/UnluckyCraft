@@ -18,7 +18,6 @@ chances:
 drops:
   diamond:
     name: "ᴅɪᴀᴍᴏɴᴅ"
-    # The drop material you specified will only take effect after a server restart.
     material: DIAMOND
   emerald:
     name: "ᴇᴍᴇʀᴀʟᴅ"
