@@ -1,4 +1,4 @@
-package me.superchirok1.unluckycraft;
+package me.superchirok1.unluckycraft.gui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,28 +12,25 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
+import me.superchirok1.unluckycraft.util.ColorUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ConfigGui implements Listener {
 
     private final JavaPlugin plugin;
 
     private final List<String> ores = Arrays.asList("diamond", "emerald", "gold", "iron", "coal", "quartz", "netherite");
+    private final Map<String, Material> icons = new HashMap<>();
 
     public ConfigGui(JavaPlugin plugin) {
         this.plugin = plugin;
-        icons = Map.of(
-                "diamond", Material.valueOf(plugin.getConfig().getString("drops.diamond.material")),
-                "emerald", Material.valueOf(plugin.getConfig().getString("drops.emerald.material")),
-                "gold", Material.valueOf(plugin.getConfig().getString("drops.gold.material")),
-                "iron", Material.valueOf(plugin.getConfig().getString("drops.iron.material")),
-                "coal", Material.valueOf(plugin.getConfig().getString("drops.coal.material")),
-                "quartz", Material.valueOf(plugin.getConfig().getString("drops.quartz.material")),
-                "netherite", Material.valueOf(plugin.getConfig().getString("drops.netherite.material"))
-        );
+        loadIcons();
     }
-
-    private final Map<String, Material> icons;
 
     public void open(Player player) {
         String rawTitle = plugin.getConfig().getString("gui.title", "&7Настройка шансов дропа");
@@ -114,7 +111,38 @@ public class ConfigGui implements Listener {
         plugin.getConfig().set("chances." + key, current);
         plugin.saveConfig();
 
-        player.sendMessage(ColorUtils.translateHex("&fᴄʜᴀɴᴄᴇ ꜰᴏʀ &e" + key + " &fsᴇᴛ ᴛᴏ &e" + String.format("%.2f", current)+ "&e%"));
+        String chanceMessage = plugin.getConfig().getString(
+                "messages.gui.chance-updated",
+                "&fᴄʜᴀɴᴄᴇ ꜰᴏʀ &e{ore} &fsᴇᴛ ᴛᴏ &e{chance}&e%"
+        );
+        chanceMessage = chanceMessage
+                .replace("{ore}", key)
+                .replace("{chance}", String.format("%.2f", current));
+        player.sendMessage(ColorUtils.translateHex(chanceMessage));
         open(player);
+    }
+
+    private void loadIcons() {
+        for (String ore : ores) {
+            String path = "drops." + ore + ".material";
+            String materialName = plugin.getConfig().getString(path);
+            if (materialName == null) {
+                plugin.getLogger().warning("Missing material for " + path);
+                continue;
+            }
+            Material material = parseMaterial(materialName, path);
+            if (material != null) {
+                icons.put(ore, material);
+            }
+        }
+    }
+
+    private Material parseMaterial(String materialName, String path) {
+        try {
+            return Material.valueOf(materialName);
+        } catch (IllegalArgumentException e) {
+            plugin.getLogger().warning("Invalid material '" + materialName + "' for " + path);
+            return null;
+        }
     }
 }

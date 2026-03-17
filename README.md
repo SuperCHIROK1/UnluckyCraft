@@ -39,6 +39,33 @@ drops:
     material: NETHERITE_SCRAP
 
 messages:
+  prefix: "&#FFD900&lU&#F2DF00&ln&#E6E600&ll&#D9EC00&lu&#CCF200&lc&#C0F900&lk&#B3FF00&ly&#C2FF00&lC&#D0FF00&lr&#DFFF00&la&#EDFF00&lf&#FCFF00&lt"
+  errors:
+    no-permission: "&cNot has permission"
+    only-players: "&cOnly players can use GUI"
+  commands:
+    about:
+      lines:
+        - " "
+        - " {prefix} &7(&#FFD900{version}&7)"
+        - " &7Unlucky plugin"
+        - " "
+        - " &fBy: &#FFD900SuperCHIROK1"
+        - " "
+    help:
+      lines:
+        - " "
+        - " {prefix} &7(&#FFD900{version}&7)"
+        - " &8&m    &f"
+        - " &#FFD900/ulc about &7- &fAbout plugin"
+        - " &#FFD900/ulc reload &7- &fReloads plugin"
+        - " &#FFD900/uls &7- &fSetting the drop chances"
+        - " "
+    reload:
+      success: "&7[{prefix}&7] &fReloaded!"
+      no-permission: "&7[{prefix}&7] &cNot have perms!"
+  gui:
+    chance-updated: "&fᴄʜᴀɴᴄᴇ ꜰᴏʀ &e{ore} &fsᴇᴛ ᴛᴏ &e{chance}&e%"
   lucky: "&#279402ʟ&#29B801ᴜ&#2BDB01ᴄ&#2DFF00ᴋ &7• &fʏᴏᴜ ᴄʟᴀɪᴍ &#2DFF00{item}"
   unlucky: "&#940202ᴜ&#A90202ɴ&#BF0101ʟ&#D40101ᴜ&#EA0000ᴄ&#FF0000ᴋ &7• &fɴᴏᴛʜɪɴɢ ᴅʀᴏᴘᴘᴇᴅ"
 

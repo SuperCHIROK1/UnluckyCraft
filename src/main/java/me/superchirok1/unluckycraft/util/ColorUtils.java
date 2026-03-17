@@ -1,4 +1,4 @@
-package me.superchirok1.unluckycraft;
+package me.superchirok1.unluckycraft.util;
 
 import net.md_5.bungee.api.ChatColor;
 
